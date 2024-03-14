@@ -1,11 +1,21 @@
-class ServerBootstrap {};
+import express, { Application } from "express";
 
-export default ServerBootstrap{
-    initialize(){
-        const promise = new Promise((resolve, reject) => {
+const PORT = 3000;
 
-        })
+class ServerBootstrap {
+  expressApp: Application;
+  app = express();
 
-        return promise;
-    }
-};
+  constructor() {
+    this.expressApp = express();
+    this.listen();
+  }
+
+  listen() {
+    this.expressApp.listen(PORT, () => {
+      console.log(`Server running at: http://localhost:${PORT}`);
+    });
+  }
+}
+
+export default ServerBootstrap;

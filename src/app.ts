@@ -1,24 +1,24 @@
-import express, { Application } from "express";
-import routerUsers from "./users/interfaces/user.route";
+import { Application } from "express";
+import routerUsers from "./users/interfaces/http/user.route";
+import routerHistories from "./histories/interfaces/history.route";
 import routerDrivers from "./drivers/interfaces/drivers.route";
-
-const app = express();
-
-app.use("/users", routerUsers);
-app.use("/drivers", routerDrivers);
-
-const PORT = 3000;
-// app.listen(PORT, () => {
-//   console.log(`Server running at: http://localhost:${PORT}`);
-// });
+import routerMedics from "./medics/interfaces/medic.route";
+import ServerBootstrap from "./bootstrap/server.bootstrap";
+import DatabaseBootstrap from "./bootstrap/database.bootstrap";
 
 class App {
   expressApp: Application;
+  database: any;
+
   constructor() {
-    this.expressApp = express();
+    const serverBootstrap = new ServerBootstrap();
+    this.expressApp = serverBootstrap.expressApp;
+
+    const databaseBootstrap = new DatabaseBootstrap();
+    this.database = databaseBootstrap.initialize();
+
     this.mountHealthCheck();
     this.mountRoutes();
-    this.listen();
   }
   mountHealthCheck(): void {
     // health validator when running in AWS, Google Cloud and others
@@ -32,12 +32,9 @@ class App {
   mountRoutes(): void {
     this.expressApp.use("/users", routerUsers);
     this.expressApp.use("/drivers", routerDrivers);
-  }
-  listen() {
-    this.expressApp.listen(PORT, () => {
-      console.log(`Server running at: http://localhost:${PORT}`);
-    });
+    this.expressApp.use("/histories", routerHistories);
+    this.expressApp.use("/medics", routerMedics);
   }
 }
-
-export default new App().expressApp;
+new App().expressApp;
+// export default new App().expressApp;
