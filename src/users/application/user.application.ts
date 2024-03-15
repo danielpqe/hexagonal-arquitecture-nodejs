@@ -1,4 +1,3 @@
-import { BaseRepository } from "../../shared/domain/repository/base-repository";
 import { UserModel } from "../domain/models/user.model";
 import { UserRepository } from "../domain/repository/user.repository";
 
@@ -31,5 +30,9 @@ export class UserApplication {
 
   async findById(id: string) {
     return await this.repositoryUser.findById(id);
+  }
+
+  async findAll() {
+    return await this.repositoryUser.findAll();
   }
 }

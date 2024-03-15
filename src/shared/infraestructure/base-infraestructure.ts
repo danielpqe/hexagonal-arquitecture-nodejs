@@ -6,7 +6,7 @@ export abstract class BaseInfraestructure<T, U> {
     throw new Error("Method not implemented.");
   }
   findAll(): Promise<T[]> {
-    throw new Error("Method not implemented.");
+    return Promise.resolve([{ user: "dan" }, { user: "Tam" }] as any[]);
   }
   insert(user: T): Promise<T> {
     return Promise.resolve(user);

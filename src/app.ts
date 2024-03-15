@@ -1,11 +1,12 @@
 import { Application } from "express";
-import routerUsers from "./users/interfaces/http/user.route";
+import RouterUsers from "./users/interfaces/http/user.route";
 import routerHistories from "./histories/interfaces/history.route";
 import routerDrivers from "./drivers/interfaces/drivers.route";
 import routerMedics from "./medics/interfaces/medic.route";
 import ServerBootstrap from "./bootstrap/server.bootstrap";
 import DatabaseBootstrap from "./bootstrap/database.bootstrap";
 
+const routerUser = new RouterUsers();
 class App {
   expressApp: Application;
   database: any;
@@ -30,7 +31,7 @@ class App {
     });
   }
   mountRoutes(): void {
-    this.expressApp.use("/users", routerUsers);
+    this.expressApp.use("/users", routerUser.router);
     this.expressApp.use("/drivers", routerDrivers);
     this.expressApp.use("/histories", routerHistories);
     this.expressApp.use("/medics", routerMedics);
