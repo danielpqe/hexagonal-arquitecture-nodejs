@@ -2,15 +2,16 @@ import express, { Application } from "express";
 import routerUsers from "./users/interfaces/user.route";
 import routerDrivers from "./drivers/interfaces/drivers.route";
 
-const app = express();
+// const app = express();
 
-app.use("/users", routerUsers);
-app.use("/drivers", routerDrivers);
+// app.use("/users", routerUsers);
+// app.use("/drivers", routerDrivers);
 
-const PORT = 3000;
 // app.listen(PORT, () => {
 //   console.log(`Server running at: http://localhost:${PORT}`);
 // });
+
+const PORT = 3000;
 
 class App {
   expressApp: Application;
