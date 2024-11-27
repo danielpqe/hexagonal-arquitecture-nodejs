@@ -1,7 +1,7 @@
-export interface BaseRepository<T> {
+export interface BaseRepository<T, U> {
   insert(entity: T): Promise<T>;
   update(entity: T): Promise<T>;
-  delete(id: number): Promise<boolean>;
-  findById(id: number): Promise<T | null>;
+  delete(id: U): Promise<boolean>;
+  findById(id: U): Promise<T | null>;
   findAll(): Promise<T[]>;
 }

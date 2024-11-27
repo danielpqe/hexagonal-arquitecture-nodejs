@@ -4,7 +4,7 @@ import { UserRepository } from "../domain/repositories/user.repository";
 import { UserInfrastructure } from "../infrastructure/user.infrastructure";
 
 export class UserApplication {
-  constructor(private repositoryUser: BaseRepository<UserModel>) {}
+  constructor(private repositoryUser: UserRepository) {}
 
   async add(user: UserModel): Promise<UserModel> {
     return await this.repositoryUser.insert(user);

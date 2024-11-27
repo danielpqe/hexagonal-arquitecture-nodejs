@@ -1,6 +1,6 @@
 export class DriverModel {
   constructor(
-    public id: number,
+    public id: string,
     public name: string,
     public license: string,
     public age: number,
