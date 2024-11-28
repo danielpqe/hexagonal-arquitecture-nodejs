@@ -4,4 +4,9 @@ import { HistoryRepository } from "../domain/repositories/history.repository";
 
 export class HistoryInfrastructure
   extends BaseInfrastructure<HistoryModel, number>
-  implements HistoryRepository {}
+  implements HistoryRepository
+{
+  getReportByHistoryId(historyId: number): Promise<HistoryModel> {
+    throw new Error("Method not implemented.");
+  }
+}

@@ -12,6 +12,20 @@ export abstract class BaseInfrastructure<T, U> {
     throw new Error("Method not implemented.");
   }
   findAll(): Promise<T[]> {
-    throw new Error("Method not implemented.");
+    const users = [
+      {
+        name: "Daniel Q",
+        age: 30,
+      },
+      {
+        name: "John Doe",
+        age: 40,
+      },
+      {
+        name: "Jane Doe",
+        age: 35,
+      },
+    ];
+    return Promise.resolve(users as unknown as T[]);
   }
 }

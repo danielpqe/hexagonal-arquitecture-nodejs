@@ -23,4 +23,8 @@ export class HistoryApplication {
   async searchAll(): Promise<HistoryModel[]> {
     return await this.repositoryUser.findAll();
   }
+
+  async searchByHistoryId(historyId: number): Promise<HistoryModel> {
+    return await this.repositoryUser.getReportByHistoryId(historyId);
+  }
 }

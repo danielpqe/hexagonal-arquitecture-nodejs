@@ -2,4 +2,6 @@ import { BaseRepository } from "../../../shared/domain/repositories/base-reposit
 import { HistoryModel } from "../models/history.model";
 
 export interface HistoryRepository
-  extends BaseRepository<HistoryModel, number> {}
+  extends BaseRepository<HistoryModel, number> {
+  getReportByHistoryId(historyId: number): Promise<HistoryModel>;
+}

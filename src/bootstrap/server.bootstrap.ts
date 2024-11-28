@@ -1,12 +1,7 @@
-class ServerBootstrap {};
+export default class ServerBootstrap {
+  initialize() {
+    const promise = new Promise((resolve, reject) => {});
 
-export default ServerBootstrap{
-    
-    initialize(){
-        const promise = new Promise((resolve, reject) => {
-
-        })
-
-        return promise;
-    }
-};
+    return promise;
+  }
+}

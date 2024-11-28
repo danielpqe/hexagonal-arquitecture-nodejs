@@ -17,6 +17,7 @@ class App {
   expressApp: Application;
   constructor() {
     this.expressApp = express();
+    this.expressApp.use(express.json());
     this.mountHealthCheck();
     this.mountRoutes();
     this.listen();
