@@ -1,19 +1,36 @@
-// import ServerBootstrap from "./bootstrap/server.bootstrap";
+import ServerBootstrap from "./bootstrap/server.bootstrap";
 import DatabaseBootstrap from "./bootstrap/database.bootstrap";
+import { DataSource } from "typeorm";
 
-// const serverBootstrap = new ServerBootstrap();
+export interface Options {
+  type: string;
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  entities: string[];
+  database: string;
+  synchronize: boolean;
+  logging: boolean;
+}
+
+const serverBootstrap = new ServerBootstrap();
 const databaseBootstrap = new DatabaseBootstrap();
 
-//   try {
-// await serverBootstrap.initialize();
-const app = async () => {
-  console.log("Starting ...");
+(async () => {
+  try {
+    const tasks = [
+      serverBootstrap.initialize(),
+      databaseBootstrap.initialize(),
+    ];
 
-  await databaseBootstrap.initialize();
-  console.log("Application is running");
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-};
-
-app();
+    const tasksCompleted = await Promise.all(tasks);
+    const options: Options = Object.assign(
+      {},
+      (tasksCompleted[1] as DataSource).options
+    ) as Options;
+    console.log("Database is running", options.database);
+  } catch (error) {
+    console.error(error);
+  }
+})();

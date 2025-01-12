@@ -9,11 +9,13 @@ export default class DatabaseBootstrap extends DatabaseListen {
   initialize(): Promise<DataSource | Error> {
     const connectionParams: DataSourceOptions = {
       type: "mysql",
-      host: "localhost",
-      port: 3306,
-      username: "dan",
-      password: "12345",
-      database: "appdb",
+      host: process.env.DATABASE_MYSQL_HOST || "localhost",
+      port: process.env.DATABASE_MYSQL_PORT
+        ? parseInt(process.env.DATABASE_MYSQL_PORT)
+        : 3306,
+      username: process.env.DATABASE_MYSQL_USERNAME || "dan",
+      password: process.env.DATABASE_MYSQL_PASSWORD || "12345",
+      database: process.env.DATABASE_MYSQL_NAME || "appdb",
       synchronize: true,
       logging: true,
       entities: ["src/**/*.entity.ts"],

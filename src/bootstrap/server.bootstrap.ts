@@ -5,7 +5,7 @@ import { IBootstrap } from "./bootstrap.interface";
 export default class ServerBootstrap implements IBootstrap {
   initialize(): Promise<boolean | Error> {
     return new Promise((res, rej) => {
-      const server = http.createServer(app);
+      const server = http.createServer();
 
       server
         .listen(3000)
