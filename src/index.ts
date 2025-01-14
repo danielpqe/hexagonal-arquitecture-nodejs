@@ -1,19 +1,21 @@
-// import ServerBootstrap from "./bootstrap/server.bootstrap";
+import ServerBootstrap from "./bootstrap/server.bootstrap";
 import DatabaseBootstrap from "./bootstrap/database.bootstrap";
+import { DataSource } from "typeorm";
 
-// const serverBootstrap = new ServerBootstrap();
+const serverBootstrap = new ServerBootstrap();
 const databaseBootstrap = new DatabaseBootstrap();
 
-//   try {
-// await serverBootstrap.initialize();
-const app = async () => {
-  console.log("Starting ...");
+(async () => {
+  try {
+    const tasks = [
+      serverBootstrap.initialize(),
+      databaseBootstrap.initialize(),
+    ];
+    const tasksCompleted = await Promise.all(tasks);
 
-  await databaseBootstrap.initialize();
-  console.log("Application is running");
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-};
-
-app();
+    const hostDatabase = (tasksCompleted[1] as DataSource).options;
+    console.log("hostDatabase", hostDatabase);
+  } catch (error) {
+    console.error(error);
+  }
+})();

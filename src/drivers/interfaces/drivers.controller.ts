@@ -5,7 +5,7 @@ export class DriverController {
   constructor(private driverApplication: DriverApplication) {}
 
   public async getDrivers(req: Request, res: Response) {
-    const drivers = await this.driverApplication.searchAll();
+    const drivers = await this.driverApplication.findAll();
     res.send(drivers);
   }
 }

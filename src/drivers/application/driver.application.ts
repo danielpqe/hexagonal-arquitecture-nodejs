@@ -21,7 +21,7 @@ export class DriverApplication {
     return await this.repositoryDriver.findById(id);
   }
 
-  async searchAll(): Promise<DriverModel[]> {
+  async findAll(): Promise<DriverModel[]> {
     return await this.repositoryDriver.findAll();
   }
 
