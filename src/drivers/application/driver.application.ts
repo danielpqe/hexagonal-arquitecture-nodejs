@@ -22,7 +22,10 @@ export class DriverApplication {
   }
 
   async findAll(): Promise<DriverModel[]> {
-    return await this.repositoryDriver.findAll();
+    return await this.repositoryDriver.findAll(
+      { active: false },
+      { name: "DESC" }
+    );
   }
 
   async reportByDriverId(id: number): Promise<DriverModel | null> {

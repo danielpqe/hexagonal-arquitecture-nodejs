@@ -11,7 +11,10 @@ export abstract class BaseInfrastructure<T, U> {
   findById(id: U): Promise<T | null> {
     throw new Error("Method not implemented.");
   }
-  findAll(): Promise<T[]> {
+  findAll(
+    where: { [s: string]: string | number | boolean },
+    order: { [s: string]: string }
+  ): Promise<T[]> {
     const users = [
       {
         name: "Daniel Q",

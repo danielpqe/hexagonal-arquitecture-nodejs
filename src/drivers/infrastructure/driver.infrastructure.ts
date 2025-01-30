@@ -13,10 +13,15 @@ export class DriverInfrastructure
     throw new Error("Method not implemented.");
   }
 
-  override findAll(): Promise<DriverModel[]> {
+  override findAll(
+    where: {
+      [s: string]: string | number | boolean;
+    },
+    order: { [s: string]: string }
+  ): Promise<DriverModel[]> {
     const dataSource = DatabaseBootstrap.dataSource;
     const repository = dataSource.getRepository(DriverEntity);
-    return repository.find({ where: { active: true } });
+    return repository.find({ where: where || {}, order: order || {} });
   }
 
   override insert(driver: DriverModel): Promise<DriverModel> {
