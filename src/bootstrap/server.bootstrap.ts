@@ -1,19 +1,19 @@
-import * as http from "http";
+import http from "http";
 import app from "../app";
-import { IBootstrap } from "./bootstrap.interface";
+import Bootstrap from "./bootstrap";
 
-export default class ServerBootstrap implements IBootstrap {
+export default class ServerBootstrap extends Bootstrap {
   initialize(): Promise<boolean | Error> {
-    return new Promise((res, rej) => {
-      const server = http.createServer();
-
+    return new Promise((resolve, reject) => {
+      const server = http.createServer(app);
+      const PORT = process.env.PORT || 3000;
       server
-        .listen(3000)
+        .listen(PORT)
         .on("listening", () => {
-          res(true);
-          console.log("Server is running on port 3000");
+          resolve(true);
+          console.log(`Server is running on port ${PORT}`);
         })
-        .on("error", rej);
+        .on("error", reject);
     });
   }
 }
