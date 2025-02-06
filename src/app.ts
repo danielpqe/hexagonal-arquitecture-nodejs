@@ -17,11 +17,17 @@ class App {
   expressApp: Application;
   constructor() {
     this.expressApp = express();
-    this.expressApp.use(express.json());
+    this.mountMiddlewares();
     this.mountHealthCheck();
     this.mountRoutes();
-    this.listen();
+    // this.listen();
   }
+
+  mountMiddlewares(): void {
+    this.expressApp.use(express.json());
+    this.expressApp.use(express.urlencoded({ extended: true }));
+  }
+
   mountHealthCheck(): void {
     // health validator when running in AWS, Google Cloud and others
     this.expressApp.get("/", (req, res) => {
@@ -32,7 +38,7 @@ class App {
     });
   }
   mountRoutes(): void {
-    this.expressApp.use("/users", routerUsers);
+    // this.expressApp.use("/users", routerUsers);
     this.expressApp.use("/drivers", routerDrivers);
   }
   listen() {

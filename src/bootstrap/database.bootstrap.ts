@@ -3,9 +3,8 @@ import { DataSource, DataSourceOptions } from "typeorm";
 import { DriverEntity } from "../drivers/domain/models/driver.entity";
 
 let source: DataSource;
-
 export default class DatabaseBootstrap extends DatabaseListen {
-  static get dataSource(): DataSource {
+  static get dataSource() {
     return source;
   }
   listen(): void {
@@ -28,7 +27,6 @@ export default class DatabaseBootstrap extends DatabaseListen {
     };
     const data = new DataSource(connectionParams);
     source = data;
-    console.log("Database is running");
     return data.initialize();
   }
 }

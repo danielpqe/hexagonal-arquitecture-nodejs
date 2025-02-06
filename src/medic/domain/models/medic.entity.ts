@@ -8,33 +8,33 @@ import {
   ManyToOne,
 } from "typeorm";
 
-@Entity({ name: "drivers" })
-export class DriverEntity {
+@Entity({ name: "medic" })
+export class MedicEntity {
   constructor(
     id: number,
     name: string,
     lastname: string,
-    license: string,
+    cmp: string,
     active: boolean
   ) {
     this.id = id;
     this.name = name;
     this.lastname = lastname;
-    this.license = license;
+    this.cmp = cmp;
     this.active = active;
   }
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: "varchar", length: 100 })
+  @Column({ type: "varchar", length: 50 })
   name: string;
 
-  @Column({ type: "varchar", length: 100 })
+  @Column({ type: "varchar", length: 50 })
   lastname: string;
 
-  @Column({ type: "text" })
-  license: string;
+  @Column({ type: "varchar", length: 5 })
+  cmp: string;
 
-  @Column({ type: "boolean", default: true })
+  @Column({ type: "boolean" })
   active: boolean;
 }

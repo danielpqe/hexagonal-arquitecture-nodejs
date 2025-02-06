@@ -22,7 +22,7 @@ export class UserApplication {
   }
 
   async searchAll(): Promise<UserModel[]> {
-    return await this.repositoryUser.findAll();
+    return await this.repositoryUser.findAll({}, {});
   }
 
   async update(user: UserModel): Promise<UserModel> {

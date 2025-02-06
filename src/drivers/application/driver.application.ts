@@ -10,19 +10,21 @@ export class DriverApplication {
   }
 
   async modify(driver: DriverModel): Promise<DriverModel> {
-    return await this.repositoryDriver.update(driver);
+    return await this.repositoryDriver.update(driver, {}, []);
   }
 
-  async delete(id: number): Promise<boolean> {
-    return await this.repositoryDriver.delete(id);
+  async delete(id: number): Promise<DriverModel | null> {
+    return await this.repositoryDriver.delete({});
   }
 
   async searchById(id: number): Promise<DriverModel | null> {
-    return await this.repositoryDriver.findById(id);
+    return await this.repositoryDriver.findOne({}, []);
   }
 
-  async searchAll(): Promise<DriverModel[]> {
-    return await this.repositoryDriver.findAll();
+  async findAll(): Promise<DriverModel[]> {
+    return await this.repositoryDriver.findAll({ active: true }, [], {
+      name: "DESC",
+    });
   }
 
   async reportByDriverId(id: number): Promise<DriverModel | null> {

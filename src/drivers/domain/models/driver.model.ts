@@ -1,9 +1,9 @@
 export class DriverModel {
   constructor(
-    public id: number,
-    public name: string,
-    public lastname: string,
-    public licenseDriver: string,
-    public active: boolean
+    public id?: number,
+    public name?: string,
+    public lastname?: string,
+    public license?: string,
+    public active?: boolean
   ) {}
 }
