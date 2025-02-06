@@ -1,10 +1,7 @@
 export interface BaseRepository<T, U> {
   insert(entity: T): Promise<T>;
-  update(entity: T): Promise<T>;
-  delete(id: U): Promise<boolean>;
-  findById(id: U): Promise<T | null>;
-  findAll(
-    where: { [s: string]: string | number | boolean } | null,
-    order: { [s: string]: string } | null
-  ): Promise<T[]>;
+  update(entity: T, where: object, relations: string[]): Promise<T>;
+  delete(entity: T): Promise<T>;
+  findOne(where: object, relations: string[]): Promise<T | null>;
+  findAll(where: object, relations: string[], order: object): Promise<T[]>;
 }

@@ -38,7 +38,7 @@ class App {
     });
   }
   mountRoutes(): void {
-    this.expressApp.use("/users", routerUsers);
+    // this.expressApp.use("/users", routerUsers);
     this.expressApp.use("/drivers", routerDrivers);
   }
   listen() {
