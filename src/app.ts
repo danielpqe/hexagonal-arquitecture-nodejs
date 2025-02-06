@@ -1,6 +1,10 @@
-import express, { Application } from "express";
-import routerUsers from "./users/interfaces/user.route";
+import { Application } from "express";
+import RouterUsers from "./users/interfaces/http/user.route";
+import routerHistories from "./histories/interfaces/history.route";
 import routerDrivers from "./drivers/interfaces/drivers.route";
+import routerMedics from "./medics/interfaces/medic.route";
+import ServerBootstrap from "./bootstrap/server.bootstrap";
+import DatabaseBootstrap from "./bootstrap/database.bootstrap";
 
 // const app = express();
 
@@ -15,6 +19,8 @@ const PORT = 3000;
 
 class App {
   expressApp: Application;
+  database: any;
+
   constructor() {
     this.expressApp = express();
     this.mountMiddlewares();
@@ -40,12 +46,9 @@ class App {
   mountRoutes(): void {
     // this.expressApp.use("/users", routerUsers);
     this.expressApp.use("/drivers", routerDrivers);
-  }
-  listen() {
-    this.expressApp.listen(PORT, () => {
-      console.log(`Server running at: http://localhost:${PORT}`);
-    });
+    this.expressApp.use("/histories", routerHistories);
+    this.expressApp.use("/medics", routerMedics);
   }
 }
-
-export default new App().expressApp;
+new App().expressApp;
+// export default new App().expressApp;
