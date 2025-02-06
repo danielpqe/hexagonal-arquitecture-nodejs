@@ -1,6 +1,7 @@
 import ServerBootstrap from "./bootstrap/server.bootstrap";
 import DatabaseBootstrap from "./bootstrap/database.bootstrap";
 import { DataSource } from "typeorm";
+import "reflect-metadata";
 
 export interface Options {
   type: string;

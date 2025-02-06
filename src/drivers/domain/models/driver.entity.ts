@@ -1,24 +1,27 @@
-// import "reflect-metadata";
-// import {
-//   Entity,
-//   Column,
-//   PrimaryGeneratedColumn,
-//   JoinColumn,
-//   OneToMany,
-//   ManyToOne,
-// } from "typeorm";
+import "reflect-metadata";
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  JoinColumn,
+  OneToMany,
+  ManyToOne,
+} from "typeorm";
 
-// @Entity()
-// export class Driver {
-//   @PrimaryGeneratedColumn()
-//   id: string;
+@Entity({ name: "driver" })
+export class DriverEntity {
+  @PrimaryGeneratedColumn()
+  id?: number;
 
-//   @Column({ type: "varchar", length: 100 })
-//   name: string;
+  @Column({ type: "varchar", length: 50 })
+  name?: string;
 
-//   @Column({ type: "text" })
-//   license: string;
+  @Column({ type: "varchar", length: 50 })
+  lastname?: string;
 
-//   @Column({ type: "varchar", length: 20 })
-//   age: number;
-// }
+  @Column({ type: "varchar", length: 50 })
+  licenseDriver?: string;
+
+  @Column({ type: "boolean", default: true })
+  active?: boolean;
+}

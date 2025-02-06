@@ -1,7 +1,13 @@
 import { DatabaseListen } from "./bootstrap";
 import { DataSource, DataSourceOptions } from "typeorm";
+import { DriverEntity } from "../drivers/domain/models/driver.entity";
+
+let source: DataSource;
 
 export default class DatabaseBootstrap extends DatabaseListen {
+  static get dataSource(): DataSource {
+    return source;
+  }
   listen(): void {
     throw new Error("Method not implemented.");
   }
@@ -18,9 +24,10 @@ export default class DatabaseBootstrap extends DatabaseListen {
       database: process.env.DATABASE_MYSQL_NAME || "appdb",
       synchronize: true,
       logging: true,
-      entities: ["src/**/*.entity.ts"],
+      entities: [DriverEntity],
     };
     const data = new DataSource(connectionParams);
+    source = data;
     console.log("Database is running");
     return data.initialize();
   }
