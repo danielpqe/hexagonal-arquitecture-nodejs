@@ -1,6 +1,8 @@
 import { ObjectLiteral, ObjectType, Repository } from "typeorm";
 import DatabaseBootstrap from "../../bootstrap/database.bootstrap";
 import _ from "lodash";
+import Result from "../application/interfaces/result.interface";
+
 export abstract class BaseInfrastructure<T extends ObjectLiteral> {
   constructor(private entity: ObjectType<T>) {}
 
@@ -15,7 +17,7 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
     entity: Partial<T>,
     where: object,
     relations: string[] = []
-  ): Promise<T> {
+  ): Promise<Result<T>> {
     const dataSource = DatabaseBootstrap.dataSource;
     const repository: Repository<T> = dataSource.getRepository(this.entity);
     let recordToUpdate: any = await repository.find({
@@ -26,7 +28,7 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
     return await repository.save(recordToUpdate);
   }
 
-  async delete(where: object): Promise<T> {
+  async delete(where: object): Promise<Result<T>> {
     const dataSource = DatabaseBootstrap.dataSource;
     const repository: Repository<T> = dataSource.getRepository(this.entity);
     let recordToDelete: any = await repository.find({
@@ -36,10 +38,13 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
     return await repository.save(recordToDelete);
   }
 
-  async findOne(where: object = {}, relations: string[] = []): Promise<T> {
+  async findOne(
+    where: object = {},
+    relations: string[] = []
+  ): Promise<Result<T>> {
     const dataSource = DatabaseBootstrap.dataSource;
     const repository: Repository<T> = dataSource.getRepository(this.entity);
-    const data: T | null = await repository.findOne({
+    const data: Result<T> | null = await repository.findOne({
       where,
       relations,
     });
@@ -63,5 +68,25 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
       order,
     });
     return data;
+  }
+
+  async getPage(
+    page: number = 1,
+    pageSize: number = 10,
+    where: object = {},
+    relations: string[] = [],
+    order: object = {}
+  ): Promise<{ data: T[]; total: number }> {
+    const dataSource = DatabaseBootstrap.dataSource;
+    const repository: Repository<T> = dataSource.getRepository(this.entity);
+    const _where = Object.assign(where, { active: true });
+    const [data, total] = await repository.findAndCount({
+      where: _where,
+      relations,
+      order,
+      take: pageSize,
+      skip: (page - 1) * pageSize,
+    });
+    return { data, total };
   }
 }
