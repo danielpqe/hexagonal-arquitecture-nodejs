@@ -2,16 +2,17 @@ import { ObjectLiteral, ObjectType, Repository } from "typeorm";
 import DatabaseBootstrap from "../../bootstrap/database.bootstrap";
 import _ from "lodash";
 import Result from "../application/interfaces/result.interface";
+import { ResponseDto } from "../application/dto/response.dto";
 
 export abstract class BaseInfrastructure<T extends ObjectLiteral> {
   constructor(private entity: ObjectType<T>) {}
 
-  async insert(entity: T): Promise<T> {
+  async insert(entity: T): Promise<Result<T>> {
     const dataSource = DatabaseBootstrap.dataSource;
     const repository: Repository<T> = dataSource.getRepository(this.entity);
     const instance = repository.create(entity);
     const data: T = await repository.save(instance);
-    return data;
+    return ResponseDto<T>("", data);
   }
   async update(
     entity: Partial<T>,
@@ -25,7 +26,9 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
       relations,
     });
     recordToUpdate = _.merge(recordToUpdate, entity);
-    return await repository.save(recordToUpdate);
+    await repository.save(recordToUpdate);
+
+    return ResponseDto<T>("", recordToUpdate);
   }
 
   async delete(where: object): Promise<Result<T>> {
@@ -35,7 +38,8 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
       where,
     });
     recordToDelete = _.merge(recordToDelete, { active: false });
-    return await repository.save(recordToDelete);
+    await repository.save(recordToDelete);
+    return ResponseDto<T>("", recordToDelete);
   }
 
   async findOne(
@@ -44,30 +48,30 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
   ): Promise<Result<T>> {
     const dataSource = DatabaseBootstrap.dataSource;
     const repository: Repository<T> = dataSource.getRepository(this.entity);
-    const data: Result<T> | null = await repository.findOne({
+    const data: T | null = await repository.findOne({
       where,
       relations,
     });
     if (!data) {
       throw new Error("Record not found");
     }
-    return data;
+    return ResponseDto<T>("", data);
   }
 
   async findAll(
     where: object = {},
     relations: string[] = [],
     order: object = {}
-  ): Promise<T[]> {
+  ): Promise<Result<T>> {
     const dataSource = DatabaseBootstrap.dataSource;
-    const repository: Repository<T> = dataSource.getRepository(this.entity);
+    const repository = dataSource.getRepository(this.entity);
     const _where = Object.assign(where, { active: true });
     const data: T[] = await repository.find({
       where: _where,
       relations,
       order,
     });
-    return data;
+    return ResponseDto<T>("", data);
   }
 
   async getPage(
@@ -76,7 +80,7 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
     where: object = {},
     relations: string[] = [],
     order: object = {}
-  ): Promise<{ data: T[]; total: number }> {
+  ): Promise<Result<T>> {
     const dataSource = DatabaseBootstrap.dataSource;
     const repository: Repository<T> = dataSource.getRepository(this.entity);
     const _where = Object.assign(where, { active: true });
@@ -87,6 +91,6 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
       take: pageSize,
       skip: (page - 1) * pageSize,
     });
-    return { data, total };
+    return ResponseDto<T>("", data, total);
   }
 }

@@ -1,9 +1,9 @@
-import { BaseInfraestructure } from "../../shared/infraestructure/base-infraestructure";
+import { BaseInfrastructure } from "../../shared/infrastructure/base-infrastructure";
 import { HistoryModel } from "../domain/models/history.model";
 import { HistoryRepository } from "../domain/repository/history.repository";
 
-export class HistoryInfraestructure
-  extends BaseInfraestructure<HistoryModel, number>
+export class HistoryInfrastructure
+  extends BaseInfrastructure<HistoryModel>
   implements HistoryRepository
 {
   reportByHistory(id: number): Promise<HistoryModel[]> {

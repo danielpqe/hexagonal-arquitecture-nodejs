@@ -1,4 +1,4 @@
-import { BaseRepository } from "../../../shared/domain/repository/base-repository";
+import { BaseRepository } from "../../../shared/domain/repositories/base-repository";
 import { HistoryModel } from "../models/history.model";
 
 export interface HistoryRepository

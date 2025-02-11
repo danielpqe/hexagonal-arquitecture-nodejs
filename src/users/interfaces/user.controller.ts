@@ -4,7 +4,7 @@ import { UserApplication } from "../application/user.application";
 export class UserController {
   constructor(private userApplication: UserApplication) {}
   async list(req: Request, res: Response) {
-    const users = await this.userApplication.searchAll();
+    const users = await this.userApplication.findAll({}, [], {});
 
     res.json(users);
   }
@@ -20,7 +20,7 @@ export class UserController {
   async update(req: Request, res: Response) {
     const user = req.body;
 
-    const updatedUser = await this.userApplication.update(user);
+    const updatedUser = await this.userApplication.update(user, {}, []);
 
     res.json(updatedUser);
   }
@@ -28,7 +28,7 @@ export class UserController {
   async delete(req: Request, res: Response) {
     const id = req.params.id;
 
-    const deletedUser = await this.userApplication.delete(id);
+    const deletedUser = await this.userApplication.delete({ id });
 
     res.json(deletedUser);
   }
@@ -36,7 +36,7 @@ export class UserController {
   async findById(req: Request, res: Response) {
     const id = req.params.id;
 
-    const user = await this.userApplication.searchById(id);
+    const user = await this.userApplication.findOne({ id }, []);
 
     res.json(user);
   }

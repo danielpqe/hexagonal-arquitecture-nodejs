@@ -8,7 +8,7 @@ import {
   ManyToOne,
 } from "typeorm";
 
-@Entity({ name: "user" })
+@Entity({ name: "users" })
 export class UserEntity {
   constructor(
     id: number,

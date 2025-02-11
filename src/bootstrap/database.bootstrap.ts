@@ -1,6 +1,7 @@
 import { DatabaseListen } from "./bootstrap";
 import { DataSource, DataSourceOptions } from "typeorm";
 import { DriverEntity } from "../drivers/domain/models/driver.entity";
+import { UserEntity } from "../users/domain/models/user.entity";
 
 let source: DataSource;
 export default class DatabaseBootstrap extends DatabaseListen {
@@ -23,7 +24,7 @@ export default class DatabaseBootstrap extends DatabaseListen {
       database: process.env.DATABASE_MYSQL_NAME || "appdb",
       synchronize: true,
       logging: true,
-      entities: [DriverEntity],
+      entities: [DriverEntity, UserEntity],
     };
     const data = new DataSource(connectionParams);
     source = data;

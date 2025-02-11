@@ -7,7 +7,7 @@ export class DriverController {
   constructor(private driverApplication: DriverApplication) {}
 
   public async getDrivers(req: Request, res: Response) {
-    const drivers = await this.driverApplication.findAll();
+    const drivers = await this.driverApplication.findAll({}, [], {});
     res.send(drivers);
   }
 
@@ -24,13 +24,13 @@ export class DriverController {
     const driverToInsert = { id: req.params.id, ...req.body };
 
     const driver = new DriverFactory().create(driverToInsert);
-    const result = await this.driverApplication.modify(driver);
+    const result = await this.driverApplication.update(driver, {}, []);
     res.send(result);
   }
 
   public async deleteDrivers(req: Request, res: Response) {
     const id = req.params.id;
-    const result = await this.driverApplication.delete(Number(id));
+    const result = await this.driverApplication.delete({ id });
     res.send(result);
   }
 }
