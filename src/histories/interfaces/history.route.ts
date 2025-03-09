@@ -9,9 +9,12 @@ const historyInfrastructure = new HistoryInfrastructure();
 const historyApplication = new HistoryApplication(historyInfrastructure);
 const historyController = new HistoryController(historyApplication);
 
-router.get("/", historyController.getHistorys.bind(historyController));
-router.post("/", historyController.addHistorys.bind(historyController));
-router.put("/:id", historyController.modifyHistorys.bind(historyController));
-router.delete("/:id", historyController.deleteHistorys.bind(historyController));
+router.get("/", historyController.getHistories.bind(historyController));
+router.post("/", historyController.addHistories.bind(historyController));
+router.put("/:id", historyController.modifyHistories.bind(historyController));
+router.delete(
+  "/:id",
+  historyController.deleteHistories.bind(historyController)
+);
 
 export default router;

@@ -1,7 +1,7 @@
 export default interface Result<T> {
   traceId: string;
   payload: {
-    data: T | T[];
+    data: Partial<T> | Partial<T>[];
     total?: number;
   };
 }

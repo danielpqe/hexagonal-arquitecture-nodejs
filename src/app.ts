@@ -1,7 +1,8 @@
 import express, { Application } from "express";
 import routerUsers from "./users/interfaces/user.route";
 import routerDrivers from "./drivers/interfaces/drivers.route";
-
+// import { uuid as uuidv4 } from "uuidv4";
+// import { Trace } from "./shared/helpers/trace.helper";
 // const app = express();
 
 // app.use("/users", routerUsers);
@@ -26,6 +27,10 @@ class App {
   mountMiddlewares(): void {
     this.expressApp.use(express.json());
     this.expressApp.use(express.urlencoded({ extended: true }));
+    // this.expressApp.use((req: any, res, next) => {
+    //   req.traceId = Trace.getTraceId();
+    //   next();
+    // });
   }
 
   mountHealthCheck(): void {
@@ -38,7 +43,7 @@ class App {
     });
   }
   mountRoutes(): void {
-    this.expressApp.use("/users", routerUsers);
+    // this.expressApp.use("/users", routerUsers);
     this.expressApp.use("/drivers", routerDrivers);
   }
   listen() {

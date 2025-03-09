@@ -3,6 +3,7 @@ import DatabaseBootstrap from "../../bootstrap/database.bootstrap";
 import _ from "lodash";
 import Result from "../application/interfaces/result.interface";
 import { ResponseDto } from "../application/dto/response.dto";
+import { Trace } from "../helpers/trace.helper";
 
 export abstract class BaseInfrastructure<T extends ObjectLiteral> {
   constructor(private entity: ObjectType<T>) {}
@@ -12,7 +13,7 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
     const repository: Repository<T> = dataSource.getRepository(this.entity);
     const instance = repository.create(entity);
     const data: T = await repository.save(instance);
-    return ResponseDto<T>("", data);
+    return ResponseDto<T>(Trace.traceId(false), data);
   }
   async update(
     entity: Partial<T>,
@@ -28,18 +29,29 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
     recordToUpdate = _.merge(recordToUpdate, entity);
     await repository.save(recordToUpdate);
 
-    return ResponseDto<T>("", recordToUpdate);
+    return ResponseDto<T>(Trace.traceId(false), recordToUpdate);
   }
 
   async delete(where: object): Promise<Result<T>> {
     const dataSource = DatabaseBootstrap.dataSource;
     const repository: Repository<T> = dataSource.getRepository(this.entity);
-    let recordToDelete: any = await repository.find({
-      where,
+    const recordsToDelete = (await repository.find({ where })) as (T & {
+      active: boolean;
+    })[];
+    if (!recordsToDelete.length) {
+      // Optionally handle the case where no records are found
+      return ResponseDto<T>(Trace.traceId(false), []);
+    }
+
+    // Mark each record as inactive
+    recordsToDelete.forEach((record) => {
+      record.active = false;
     });
-    recordToDelete = _.merge(recordToDelete, { active: false });
-    await repository.save(recordToDelete);
-    return ResponseDto<T>("", recordToDelete);
+
+    // Save the updated records
+    await repository.save(recordsToDelete);
+
+    return ResponseDto<T>(Trace.traceId(false), recordsToDelete);
   }
 
   async findOne(
@@ -55,7 +67,7 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
     if (!data) {
       throw new Error("Record not found");
     }
-    return ResponseDto<T>("", data);
+    return ResponseDto<T>(Trace.traceId(false), data);
   }
 
   async findAll(
@@ -71,7 +83,7 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
       relations,
       order,
     });
-    return ResponseDto<T>("", data);
+    return ResponseDto<T>(Trace.traceId(false), data);
   }
 
   async getPage(
@@ -91,6 +103,6 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
       take: pageSize,
       skip: (page - 1) * pageSize,
     });
-    return ResponseDto<T>("", data, total);
+    return ResponseDto<T>(Trace.traceId(), data, total);
   }
 }

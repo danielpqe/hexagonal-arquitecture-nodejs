@@ -10,6 +10,7 @@ const driverApplication = new DriverApplication(driverInfrastructure);
 const driverController = new DriverController(driverApplication);
 
 router.get("/", driverController.getDrivers.bind(driverController));
+router.get("/:id", driverController.getDriver.bind(driverController));
 router.post("/", driverController.addDrivers.bind(driverController));
 router.put("/:id", driverController.modifyDrivers.bind(driverController));
 router.delete("/:id", driverController.deleteDrivers.bind(driverController));
