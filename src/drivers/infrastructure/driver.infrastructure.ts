@@ -9,7 +9,7 @@ export class DriverInfrastructure
   implements DriverRepository
 {
   constructor() {
-    super(DriverEntity);
+    super(DriverEntity, "DriverInfrastructure");
   }
 
   reportByDriverId(id: number): Promise<DriverModel> {

@@ -23,7 +23,7 @@ export default class DatabaseBootstrap extends DatabaseListen {
       password: process.env.DATABASE_MYSQL_PASSWORD || "12345",
       database: process.env.DATABASE_MYSQL_NAME || "appdb",
       synchronize: true,
-      logging: true,
+      logging: false,
       entities: [DriverEntity, UserEntity],
     };
     const data = new DataSource(connectionParams);

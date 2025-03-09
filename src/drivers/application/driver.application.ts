@@ -6,7 +6,7 @@ import { DriverDto } from "./dto/list.dto";
 
 export class DriverApplication extends BaseApplication<DriverModel> {
   constructor(private repositoryDriver: DriverRepository) {
-    super(repositoryDriver, new DriverDto());
+    super(repositoryDriver, new DriverDto(), "Driver Application");
   }
 
   async reportByDriverId(id: number): Promise<DriverModel | null> {

@@ -1,6 +1,7 @@
 import express, { Application } from "express";
 import routerUsers from "./users/interfaces/user.route";
 import routerDrivers from "./drivers/interfaces/drivers.route";
+import { Logger, Transport } from "./shared/helpers/logging.helper";
 // import { uuid as uuidv4 } from "uuidv4";
 // import { Trace } from "./shared/helpers/trace.helper";
 // const app = express();

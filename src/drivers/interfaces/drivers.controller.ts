@@ -3,12 +3,20 @@ import { Request, Response } from "express";
 import { DriverModel } from "../domain/models/driver.model";
 import { DriverFactory } from "../domain/models/driver.factory";
 import { Trace } from "../../shared/helpers/trace.helper";
+import { Logger, Transport } from "../../shared/helpers/logging.helper";
 
 export class DriverController {
   constructor(private driverApplication: DriverApplication) {}
 
   public async getDrivers(req: Request, res: Response) {
-    Trace.traceId(true);
+    Logger.getLogger().info({
+      typeElement: "DriverController",
+      typeAction: "getDrivers",
+      traceId: Trace.traceId(true),
+      message: "Get all drivers",
+      query: JSON.stringify({}),
+      datetime: new Date().toISOString(),
+    });
     const drivers = await this.driverApplication.findAll({}, [], {});
     res.send(drivers);
   }

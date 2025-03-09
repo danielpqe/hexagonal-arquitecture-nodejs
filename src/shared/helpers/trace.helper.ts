@@ -1,4 +1,4 @@
-import { uuid as uuidv4 } from "uuidv4";
+import { v4 as uuidv4 } from "uuid";
 
 export class Trace {
   private static instance: Trace;

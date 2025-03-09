@@ -4,9 +4,13 @@ import _ from "lodash";
 import Result from "../application/interfaces/result.interface";
 import { ResponseDto } from "../application/dto/response.dto";
 import { Trace } from "../helpers/trace.helper";
+import { Logger } from "../helpers/logging.helper";
 
 export abstract class BaseInfrastructure<T extends ObjectLiteral> {
-  constructor(private entity: ObjectType<T>) {}
+  constructor(
+    private entity: ObjectType<T>,
+    private infrastructureName: string = ""
+  ) {}
 
   async insert(entity: T): Promise<Result<T>> {
     const dataSource = DatabaseBootstrap.dataSource;
@@ -75,6 +79,15 @@ export abstract class BaseInfrastructure<T extends ObjectLiteral> {
     relations: string[] = [],
     order: object = {}
   ): Promise<Result<T>> {
+    Logger.getLogger().info({
+      typeElement: this.infrastructureName || "BaseInfrastructure",
+      typeAction: "getDrivers",
+      traceId: Trace.traceId(),
+      message: "Get all drivers",
+      query: JSON.stringify({}),
+      datetime: new Date().toISOString(),
+    });
+
     const dataSource = DatabaseBootstrap.dataSource;
     const repository = dataSource.getRepository(this.entity);
     const _where = Object.assign(where, { active: true });

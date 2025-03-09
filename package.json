@@ -18,7 +18,8 @@
     "mysql2": "^3.11.5",
     "reflect-metadata": "^0.2.2",
     "typeorm": "^0.3.20",
-    "uuidv4": "^6.2.13",
+    "uuid": "^11.1.0",
+    "winston": "^3.17.0",
     "yenv": "^3.0.1"
   },
   "devDependencies": {
